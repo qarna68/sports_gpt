@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220"><meta name="description" content="قائمة قنواتك الرياضية الخاصة — معالجة محلية دون حفظ بيانات الدخول">
+  <title>دليل الرياضة</title><link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+</head>
+<body>
+<header class="top"><div class="brand"><div class="brandicon">▶</div><div><h1>دليل الرياضة</h1><p>قنواتك الرياضية في مكان واحد</p></div></div><button id="clearBtn" class="ghost" type="button">إنهاء الجلسة</button></header>
+<main>
+  <section class="notice"><strong>خصوصيتك أولًا</strong><p>لا يحفظ هذا الموقع بيانات الدخول في التخزين الدائم. اتصال Xtream أو Stalker من المتصفح قد يفشل إذا منع المصدر CORS؛ لا ترسل بياناتك إلى أي خادم وسيط غير موثوق.</p></section>
+  <section class="panel"><div class="sectionhead"><span class="step">1</span><div><h2>اختر مصدر الاشتراك</h2><p>ابدأ بملف M3U؛ فهو يعمل محليًا دون خادم خلفي.</p></div></div>
+    <div class="tabs" role="tablist"><button class="tab active" data-tab="m3u">ملف / رابط M3U</button><button class="tab" data-tab="xtream">Xtream Codes</button><button class="tab" data-tab="stalker">Stalker Portal</button></div>
+    <div class="tabbody active" id="tab-m3u"><label class="field">رفع ملف M3U أو M3U8<input id="m3uFile" type="file" accept=".m3u,.m3u8,.txt,audio/x-mpegurl,application/vnd.apple.mpegurl"></label><div class="or">أو</div><label class="field">رابط قائمة M3U<input id="m3uUrl" type="url" placeholder="https://example.com/list.m3u" autocomplete="off" autocapitalize="off" spellcheck="false"></label><button class="primary" id="loadM3u">استخراج القنوات الرياضية</button><p class="hint">رفع الملف لا يرسله إلى أي مكان. قد يمنع CORS قراءة الرابط الخارجي.</p></div>
+    <div class="tabbody" id="tab-xtream"><label class="field">عنوان الخادم<input id="xtHost" type="url" placeholder="https://server.example:port" autocomplete="off" autocapitalize="off" spellcheck="false"></label><div class="two"><label class="field">اسم المستخدم<input id="xtUser" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label class="field">كلمة المرور<input id="xtPass" type="password" autocomplete="new-password"></label></div><button class="primary" id="loadXtream">اتصال واستخراج القنوات</button><p class="hint">تُستخدم البيانات في الطلب الحالي فقط ولا تُحفظ في التخزين المحلي. قد يمنع CORS الاتصال المباشر.</p></div>
+    <div class="tabbody" id="tab-stalker"><label class="field">رابط البوابة<input id="stHost" type="url" placeholder="https://portal.example" autocomplete="off" autocapitalize="off" spellcheck="false"></label><label class="field">عنوان MAC<input id="stMac" type="text" placeholder="00:1A:79:12:34:56" autocomplete="off" autocapitalize="characters"></label><button class="primary" id="loadStalker">اتصال واستخراج القنوات</button><p class="hint">دعم Stalker يختلف حسب مزود الخدمة. المتصفح لا يسمح بتعيين بعض ترويسات المصادقة يدويًا؛ قد يتطلب هذا المصدر وسيطًا خلفيًا موثوقًا.</p></div>
+    <div id="status" class="status" role="status" aria-live="polite">جاهز. اختر مصدرًا لبدء الاختبار.</div>
+  </section>
+  <section class="panel results"><div class="resulthead"><div><h2>القنوات الرياضية</h2><p id="countText">لم يتم تحميل قنوات بعد</p></div><button id="exportBtn" class="ghost" disabled>تصدير M3U</button></div>
+    <label class="search"><span>⌕</span><input id="searchInput" type="search" placeholder="ابحث عن قناة أو بطولة…" autocomplete="off"></label>
+    <div id="groups" class="chips"><button class="chip selected" data-group="all">الكل</button></div>
+    <div id="channelList" class="channel-list"><div class="empty"><div class="emptyicon">⚽</div><strong>ستظهر قنواتك هنا</strong><p>حمّل ملف M3U أو اتصل بأحد المصادر.</p></div></div>
+  </section>
+  <section class="panel playerpanel"><div class="sectionhead"><span class="step">2</span><div><h2 id="playerTitle">مشغل القنوات</h2><p id="playerHint">اختر قناة من القائمة لبدء التشغيل.</p></div></div><video id="video" controls playsinline webkit-playsinline preload="none"></video><div class="playeractions"><button id="openExternal" class="ghost" disabled>فتح الرابط في مشغل خارجي</button><button id="stopBtn" class="ghost">إيقاف التشغيل</button></div><p class="hint">نجاح التشغيل يعتمد على نوع الرابط، ودعم HLS، والمصادقة، وإعدادات الخادم. لا يستطيع الموقع تجاوز قيود مزود البث.</p></section>
+  <footer><p>أداة شخصية لإدارة اشتراكاتك الرسمية. لا تتضمن قنوات أو روابط بث جاهزة، ولا ترتبط بأي مزود خدمة.</p><p>بيانات الاتصال مؤقتة داخل الذاكرة؛ أغلق الصفحة أو اضغط «إنهاء الجلسة» لمسحها.</p></footer>
+</main><script src="app.js"></script>
+</body></html>
